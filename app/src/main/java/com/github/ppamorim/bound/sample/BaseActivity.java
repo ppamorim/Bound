@@ -15,25 +15,10 @@
 */
 package com.github.ppamorim.bound.sample;
 
-import android.os.Bundle;
-import android.os.Handler;
-import butterknife.InjectView;
-import com.github.ppamorim.bound.BoundView;
-
 public class BaseActivity extends AbstractActivity {
-
-  @InjectView(R.id.bound_view) BoundView boundView;
 
   @Override protected int getLayoutId() {
     return R.layout.activity_base;
   }
 
-  @Override protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    new Handler().postDelayed(new Runnable() {
-      @Override public void run() {
-        boundView.slideToCenter();
-      }
-    }, 1000);
-  }
 }

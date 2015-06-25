@@ -16,7 +16,6 @@
 package com.github.ppamorim.bound;
 
 import android.content.Context;
-import android.os.Debug;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -30,6 +29,7 @@ import android.widget.FrameLayout;
 public class BoundView extends FrameLayout {
 
   private FloatingActionButton floatingActionButton;
+  private BoundMenu boundMenu;
   private SpringController springController;
 
   public BoundView(Context context) {
@@ -47,6 +47,7 @@ public class BoundView extends FrameLayout {
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
     if(!isInEditMode()) {
+      initializeBoundMenu();
       initializeFabButton();
       initializeSpringController();
     }
@@ -76,12 +77,14 @@ public class BoundView extends FrameLayout {
     if(springController == null) {
       springController = new SpringController();
       springController.setViewCallback(viewCallback);
+      springController.setScale(2);
     }
   }
 
   private void initializeFabButton() {
     if(floatingActionButton == null) {
       floatingActionButton = new FloatingActionButton(getContext());
+      floatingActionButton.setRadius(100);
       floatingActionButton.setOnClickListener(onFabButtonClick);
     }
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -91,19 +94,34 @@ public class BoundView extends FrameLayout {
     addView(floatingActionButton, params);
   }
 
+  private void initializeBoundMenu() {
+    if(boundMenu == null) {
+      boundMenu = new BoundMenu(getContext());
+      boundMenu.setRadius(100);
+    }
+    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+        LayoutParams.WRAP_CONTENT,
+        LayoutParams.WRAP_CONTENT);
+    params.gravity = Gravity.BOTTOM|Gravity.RIGHT;
+    addView(boundMenu, params);
+  }
+
   public void slideToCenter() {
     springController.slideToCenter();
   }
 
   private View.OnClickListener onFabButtonClick = new OnClickListener() {
     @Override public void onClick(View v) {
-
+      slideToCenter();
     }
   };
 
   private ViewCallback viewCallback = new ViewCallback() {
     @Override public View getFabButton() {
       return floatingActionButton;
+    }
+    @Override public View getBoundMenu() {
+      return boundMenu;
     }
   };
 

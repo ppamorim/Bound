@@ -26,11 +26,13 @@ public class SpringController {
 
   private static final int DEFAULT_TENSION = 40;
   private static final int DEFAULT_FRICTION = 6;
+  private static final int DEFAULT_SCALE = 2;
 
   private int centerX;
   private int centerY;
 
   private double val;
+  private int scale = DEFAULT_SCALE;
 
   private double slideButtonTension = DEFAULT_TENSION;
   private double slideButtonFriction = DEFAULT_FRICTION;
@@ -40,6 +42,7 @@ public class SpringController {
 
   private static volatile Spring slideButtonSpring;
   private static volatile Spring fabButtonSpring;
+  private static volatile Spring scaleButtonSpring;
 
   private ViewCallback viewCallback;
 
@@ -54,11 +57,13 @@ public class SpringController {
   public void onDetachedFromWindow() {
     slideButtonSpring().removeAllListeners();
     fabButtonSpring().removeAllListeners();
+    scaleButtonSpring().removeAllListeners();
   }
 
   public void onAttachedToWindow() {
     slideButtonSpring().removeAllListeners().addListener(slideButtonSpringListener);
-    fabButtonSpring().removeAllListeners().addListener(fabButtonSpringListener);
+    //fabButtonSpring().removeAllListeners().addListener(fabButtonSpringListener);
+    scaleButtonSpring().removeAllListeners().addListener(scaleButtonSpringListener);
   }
 
   public int getCenterX() {
@@ -75,6 +80,14 @@ public class SpringController {
 
   public void setCenterY(int centerY) {
     this.centerY = centerY;
+  }
+
+  public int getScale() {
+    return scale;
+  }
+
+  public void setScale(int scale) {
+    this.scale = scale;
   }
 
   public double getSlideButtonTension() {
@@ -141,20 +154,48 @@ public class SpringController {
     return fabButtonSpring;
   }
 
+  public Spring scaleButtonSpring() {
+    if(scaleButtonSpring == null) {
+      synchronized (Spring.class) {
+        if(scaleButtonSpring == null) {
+          scaleButtonSpring = SpringSystem
+              .create()
+              .createSpring()
+              .setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(fabButtonTension, fabButtonFriction));
+        }
+      }
+    }
+    return scaleButtonSpring;
+  }
+
   private SimpleSpringListener slideButtonSpringListener = new SimpleSpringListener() {
     @Override public void onSpringUpdate(Spring spring) {
       super.onSpringUpdate(spring);
       val = spring.getCurrentValue();
       ViewCompat.setTranslationX(viewCallback.getFabButton(),
-          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerX));
+          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerX + 100));
       ViewCompat.setTranslationY(viewCallback.getFabButton(),
-          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerY));
+          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerY + 100));
+      ViewCompat.setTranslationX(viewCallback.getBoundMenu(),
+          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerX + 100));
+      ViewCompat.setTranslationY(viewCallback.getBoundMenu(),
+          (float) SpringUtil.mapValueFromRangeToRange(val, 0, 1, 0, centerY ));
     }
+
+    @Override public void onSpringAtRest(Spring spring) {
+      super.onSpringAtRest(spring);
+      scaleButtonSpring().setEndValue(1);
+    }
+
   };
 
-  private SimpleSpringListener fabButtonSpringListener = new SimpleSpringListener() {
+  private SimpleSpringListener scaleButtonSpringListener = new SimpleSpringListener() {
     @Override public void onSpringUpdate(Spring spring) {
       super.onSpringUpdate(spring);
+      float scaleSpring = (float) SpringUtil.mapValueFromRangeToRange(
+          spring.getCurrentValue(), 0, 1, 0, scale);
+      ViewCompat.setScaleX(viewCallback.getBoundMenu(), scaleSpring);
+      ViewCompat.setScaleY(viewCallback.getBoundMenu(), scaleSpring);
     }
   };
 
