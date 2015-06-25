@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <attr name="rd_style" format="reference"/>
+  <attr name="rd_enable" format="boolean"/>
+
+  <declare-styleable name="FloatingActionButton">
+    <attr name="fab_backgroundColor" format="reference|color"/>
+    <attr name="fab_radius" format="reference|dimension"/>
+    <attr name="fab_elevation" format="reference|dimension"/>
+    <attr name="fab_iconSrc" format="reference"/>
+    <attr name="fab_iconLineMorphing" format="reference"/>
+    <attr name="fab_iconSize" format="reference|dimension"/>
+    <attr name="fab_interpolator" format="reference"/>
+    <attr name="fab_animDuration" format="reference|integer"/>
+  </declare-styleable>
+
+  <declare-styleable name="RippleView">
+    <attr name="rd_style" />
+    <attr name="rd_enable" />
+  </declare-styleable>
+
+  <declare-styleable name="RippleDrawable">
+    <attr name="rd_backgroundColor" format="reference|color"/>
+    <attr name="rd_backgroundAnimDuration" format="reference|integer"/>
+    <attr name="rd_maxRippleRadius" format="reference|dimension|integer">
+      <enum name="match_view" value="0x00000000" />
+    </attr>
+    <attr name="rd_rippleColor" format="reference|color"/>
+    <attr name="rd_rippleAnimDuration" format="reference|integer"/>
+    <attr name="rd_inInterpolator" format="reference"/>
+    <attr name="rd_outInterpolator" format="reference"/>
+    <attr name="rd_maskType" format="integer">
+      <enum name="rectangle" value="0x00000000" />
+      <enum name="oval" value="0x00000001" />
+    </attr>
+    <attr name="rd_rippleType" format="integer">
+      <enum name="touch" value="0x00000000" />
+      <enum name="wave" value="0x00000001" />
+    </attr>
+    <attr name="rd_cornerRadius" format="reference|dimension"/>
+    <attr name="rd_topLeftCornerRadius" format="reference|dimension"/>
+    <attr name="rd_topRightCornerRadius" format="reference|dimension"/>
+    <attr name="rd_bottomLeftCornerRadius" format="reference|dimension"/>
+    <attr name="rd_bottomRightCornerRadius" format="reference|dimension"/>
+    <attr name="rd_padding" format="reference|dimension"/>
+    <attr name="rd_leftPadding" format="reference|dimension"/>
+    <attr name="rd_topPadding" format="reference|dimension"/>
+    <attr name="rd_rightPadding" format="reference|dimension"/>
+    <attr name="rd_bottomPadding" format="reference|dimension"/>
+    <attr name="rd_delayClick" format="integer">
+      <enum name="none" value="0x00000000" />
+      <enum name="untilRelease" value="0x00000001" />
+      <enum name="afterRelease" value="0x00000002" />
+    </attr>
+  </declare-styleable>
+
+  <declare-styleable name="LineMorphingDrawable">
+    <attr name="lmd_state" format="reference"/>
+    <attr name="lmd_curState" format="integer"/>
+    <attr name="lmd_padding" format="reference|dimension"/>
+    <attr name="lmd_paddingLeft" format="reference|dimension"/>
+    <attr name="lmd_paddingTop" format="reference|dimension"/>
+    <attr name="lmd_paddingRight" format="reference|dimension"/>
+    <attr name="lmd_paddingBottom" format="reference|dimension"/>
+    <attr name="lmd_animDuration" format="reference|integer"/>
+    <attr name="lmd_interpolator" format="reference"/>
+    <attr name="lmd_strokeSize" format="reference|dimension"/>
+    <attr name="lmd_strokeColor" format="reference|color"/>
+    <attr name="lmd_strokeCap" format="integer">
+      <enum name="butt" value="0x00000000" />
+      <enum name="round" value="0x00000001" />
+      <enum name="square" value="0x00000002" />
+    </attr>
+    <attr name="lmd_strokeJoin" format="integer">
+      <enum name="miter" value="0x00000000" />
+      <enum name="round" value="0x00000001" />
+      <enum name="bevel" value="0x00000002" />
+    </attr>
+    <attr name="lmd_clockwise" format="boolean"/>
+    <attr name="lmd_layoutDirection" format="integer">
+      <enum name="ltr" value="0x00000000" />
+      <enum name="rtl" value="0x00000001" />
+      <enum name="locale" value="0x00000003" />
+    </attr>
+  </declare-styleable>
+
+</resources>
